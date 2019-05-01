@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import net.NetPresenter;
 import net.bean.BaseBean;
 import net.bean.WeatherInfoBean;
-import net.bean.delicacy.SettingBean;
+import net.bean.SettingBean;
 import net.util.Constant;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,30 +39,49 @@ public class Main {
 //            }
 //        });
 
-//        netPresenter.getScenicInfo(tuid, uuid, lat, lon, "", "1000", "2", "",
-//                new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//                        LogUtil.i(TAG, "getScenicInfo: failure: ");
-//                    }
+//        netPresenter.getScenicInCity(tuid, uuid, "上海", new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                LogUtil.i(TAG, "getScenicInCity: failure: ");
 //
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        LogUtil.i(TAG, "getScenicInfo: response.body: " + response.body().string());
-//                    }
-//                });
-        netPresenter.getScenicInCity(tuid, uuid, "上海", new Callback() {
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                LogUtil.i(TAG, "getScenicInCity: response.body: " + response.body().string());
+//            }
+//        });
+
+//        netPresenter.getScenicDetail(tuid, uuid, "211449", new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                LogUtil.i(TAG, "getScenicDetail: failure: ");
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                LogUtil.i(TAG, "getScenicDetail: response.body: " + response.body().string());
+//            }
+//        });
+
+
+        netPresenter.getWeatherInfo(tuid, "银川", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                LogUtil.i(TAG, "getScenicInCity: failure: ");
-
+                LogUtil.i(TAG, "getWeatherInfo: failure: ");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                LogUtil.i(TAG, "getScenicInCity: response.body: " + response.body().string());
+                String data = response.body().string();
+                LogUtil.i(TAG, "getWeatherInfo: response.body: " + data);
+                Type type = new TypeToken<BaseBean<WeatherInfoBean>>() {
+                }.getType();
+                BaseBean<WeatherInfoBean> bean = gson.fromJson(data, type);
+                LogUtil.i(TAG, "getWeatherInfo: " + bean.getResp_data().getCurrent_conditions());
             }
         });
+
 
         String exitStr = "1";
         boolean flag = true;
@@ -124,7 +143,7 @@ public class Main {
                 Type type = new TypeToken<BaseBean<WeatherInfoBean>>() {
                 }.getType();
                 BaseBean<WeatherInfoBean> bean = gson.fromJson(data, type);
-                LogUtil.i(TAG, "getWeatherInfo: " + bean.getResp_data().getCity_name());
+//                LogUtil.i(TAG, "getWeatherInfo: " + bean.getResp_data().getCity_name());
             }
         });
 
@@ -228,6 +247,21 @@ public class Main {
                 LogUtil.i(TAG, "getChargingStationDetail: response.body: " + response.body().string());
             }
         });
+
+
+        // 景区坐标固定，测试环境下只有当前坐标有数据
+        netPresenter.getScenicInfo(tuid, uuid, "39.95481", "116.4827", "", "1000", "2", "",
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        LogUtil.i(TAG, "getScenicInfo: failure: ");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        LogUtil.i(TAG, "getScenicInfo: response.body: " + response.body().string());
+                    }
+                });
 
         netPresenter.createSchedule(uuid, "看电影", "看阿凡达", "2019-01-01 00:00:11", "1",
                 new Callback() {

@@ -21,6 +21,7 @@ public class Constant {
         String ChargingStationDetail = "tu/[TUID]/user/[UUID]/station/poi/[STATIONID]";
         String ChargingStationSetting = "tu/[TUID]/user/[UUID]/station/setting";
         String ScenicInfo = "tu/[TUID]/user/[UUID]/scenic/poi";
+        String ScenicDetail = "tu/[TUID]/user/[UUID]/scenic/poi/[SCENICID]";
         String ScenicInCity = "tu/[TUID]/user/[UUID]/scenic/list/info";
     }
 }

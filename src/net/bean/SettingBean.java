@@ -1,7 +1,6 @@
-package net.bean.delicacy;
+package net.bean;
 
 import com.google.gson.annotations.SerializedName;
-import net.bean.BaseBean;
 
 import java.util.List;
 

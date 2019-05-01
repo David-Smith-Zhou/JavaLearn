@@ -2,7 +2,6 @@ package net;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import io.reactivex.annotations.NonNull;
 import net.util.Constant;
 import okhttp3.*;
 import util.LogUtil;
@@ -231,6 +230,14 @@ public class NetPresenter {
         executeGet(host, treeMap, callback);
     }
 
+    public void getScenicDetail(@NotNull String tuid, @NotNull String uuid, @NotNull String scenicId, Callback callback) {
+        String host = getUrl(Constant.API.ScenicDetail);
+        host = host.replace("[TUID]", tuid);
+        host = host.replace("[UUID]", uuid);
+        host = host.replace("[SCENICID]", scenicId);
+        executeGet(host, null, callback);
+    }
+
     public void getScenicInCity(@NotNull String tuid, @NotNull String uuid, @NotNull String cityName, Callback callback) {
         String host = getUrl(Constant.API.ScenicInCity);
         host = host.replace("[TUID]", tuid);
@@ -254,7 +261,6 @@ public class NetPresenter {
         return md5(stringBuffer.toString());
     }
 
-    @NonNull
     private String md5(String string) {
         if (string == null || string.isEmpty()) {
             return "";
