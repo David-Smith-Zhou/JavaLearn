@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class WeatherInfoBean extends BaseBean{
+public class WeatherInfoBean {
 
     /**
      * city_name : 北京

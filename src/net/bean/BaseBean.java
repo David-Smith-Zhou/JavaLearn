@@ -2,11 +2,11 @@ package net.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BaseBean {
+public class BaseBean<T> {
     @SerializedName("resp_status")
     private String resp_status;
     @SerializedName("resp_data")
-    private String resp_data;
+    private T resp_data;
     @SerializedName("error_code")
     private String error_code;
     @SerializedName("error_desc")
@@ -20,7 +20,7 @@ public class BaseBean {
         this.error_desc = error_desc;
     }
 
-    public void setResp_data(String resp_data) {
+    public void setResp_data(T resp_data) {
         this.resp_data = resp_data;
     }
 
@@ -36,7 +36,7 @@ public class BaseBean {
         return error_desc;
     }
 
-    public String getResp_data() {
+    public T getResp_data() {
         return resp_data;
     }
 
