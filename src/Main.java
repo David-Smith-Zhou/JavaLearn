@@ -26,7 +26,18 @@ public class Main {
         String lon = "116.429718";
 
         NetPresenter netPresenter = new NetPresenter();
-        runDemo(netPresenter, gson);
+
+        netPresenter.getRescue(tuid, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtil.i(TAG, "getRescue: failure: ");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                LogUtil.i(TAG, "getRescue: response.body: " + response.body().string());
+            }
+        });
 
         String exitStr = "1";
         boolean flag = true;

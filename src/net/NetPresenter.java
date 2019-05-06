@@ -112,7 +112,9 @@ public class NetPresenter {
     public void getRescue(@NotNull String tuid, Callback callback) {
         String host = getUrl(Constant.API.Rescue);
         host = host.replace("[TUID]", tuid);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        executeGet(host, urlParams, null, callback);
     }
 
     public void getParkingLots(@NotNull String tuid, @NotNull String lat, @NotNull String lon, String radius, Callback callback) {
@@ -262,7 +264,9 @@ public class NetPresenter {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(Constant.ACCESS_TOKEN);
         for (Map.Entry<String, Object> entry : entries) {
-            stringBuffer.append(entry.getValue());
+            String value = String.valueOf(entry.getValue());
+            LogUtil.i(TAG, "value: " + value);
+            stringBuffer.append(value);
         }
         stringBuffer.append(requestTime);
         LogUtil.i(TAG, "encrypt data: " + stringBuffer.toString());
@@ -308,6 +312,39 @@ public class NetPresenter {
         String checkCode = getCheckCode(params, time);
         params.put("checkCode", checkCode);
 
+        try {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                String key, value;
+                key = entry.getKey();
+                value = String.valueOf(entry.getValue());
+                LogUtil.i(TAG, "get param key: " + key + ", value: " + value);
+                httpUrlBuilder.addQueryParameter(key, URLEncoder.encode(value, "UTF-8"));
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        LogUtil.i(TAG, "httpUrl: " + httpUrlBuilder.toString());
+        Request request = new Request.Builder()
+                .url(httpUrlBuilder.toString()).build();
+        Call call = getOkHttpClient().newCall(request);
+        call.enqueue(callback);
+    }
+
+    private void executeGet(String url, TreeMap<String, Object> urlParam, TreeMap<String, Object> params, Callback callback) {
+        HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
+        if (params == null) {
+            params = getStrMap();
+        }
+
+        long time = System.currentTimeMillis() / 1000;
+
+        urlParam.putAll(params);
+
+        String checkCode = getCheckCode(urlParam, time);
+        params.put("checkCode", checkCode);
+        // 放在后面，不要把requestTime重复放到MD5计算里面
+        params.put("requestTime", String.valueOf(time));
         try {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 String key, value;
