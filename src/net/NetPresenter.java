@@ -246,6 +246,14 @@ public class NetPresenter {
         treeMap.put("cityName", cityName);
         executeGet(host, treeMap, callback);
     }
+
+    public void getScenicSetting(@NotNull String tuid, @NotNull String uuid, Callback callback) {
+        String host = getUrl(Constant.API.ScenicSetting);
+        host = host.replace("[TUID]", tuid);
+        host = host.replace("[UUID]", uuid);
+        executeGet(host, null, callback);
+    }
+
     /*****************************************************************************/
 
 

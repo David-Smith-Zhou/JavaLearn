@@ -2,6 +2,7 @@ package util;
 
 public class LogUtil {
     private static final boolean isShow = true;
+    private static LogCallback mLogCallback;
 
     private static final int LEVEL_DEBUG = 0x21;
     private static final int LEVEL_INFO = 0x22;
@@ -45,6 +46,18 @@ public class LogUtil {
     private static void print(String level, String tag, String msg) {
         String threadName = Thread.currentThread().getName();
         long id = Thread.currentThread().getId();
-        System.out.print("[Thread Name: " + threadName + ", "  + "Id: " + id + "][" + level + "][" + tag + "]: " + msg + '\n');
+        String logStr = "[Thread Name: " + threadName + ", "  + "Id: " + id + "][" + level + "][" + tag + "]: " + msg + '\n';
+        System.out.print(logStr);
+        if (mLogCallback != null) {
+            mLogCallback.onLog(logStr);
+        }
+    }
+
+    public static void setLogCallback(LogCallback mLogCallback) {
+        LogUtil.mLogCallback = mLogCallback;
+    }
+
+    public interface LogCallback {
+        void onLog(String log);
     }
 }
