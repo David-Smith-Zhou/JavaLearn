@@ -27,17 +27,7 @@ public class Main {
 
         NetPresenter netPresenter = new NetPresenter();
 
-        netPresenter.getRescue(tuid, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                LogUtil.i(TAG, "getRescue: failure: ");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                LogUtil.i(TAG, "getRescue: response.body: " + response.body().string());
-            }
-        });
+        runDemo(netPresenter, gson);
 
         String exitStr = "1";
         boolean flag = true;

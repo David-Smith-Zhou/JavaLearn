@@ -46,7 +46,9 @@ public class NetPresenter {
         treeMap.put("desc", desc);
         treeMap.put("reminder_date", reminderDate);
         treeMap.put("reminder_rules", reminderRules);
-        executeFormPost(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("uuid", uuid);
+        executeFormPost(host, urlParams, treeMap, callback);
     }
 
     public void getScheduleList(@NotNull String uuid, @Nullable String start, @Nullable String rows, @NotNull String year, @Nullable String month,
@@ -72,7 +74,9 @@ public class NetPresenter {
         if (notNullOrEmpty(todo)) {
             treeMap.put("todo", todo);
         }
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void updateSchedule(@NotNull String uuid, @NotNull String id, @NotNull String title, @Nullable String desc,
@@ -85,14 +89,20 @@ public class NetPresenter {
         treeMap.put("desc", desc);
         treeMap.put("reminder_date", reminderDate);
         treeMap.put("reminder_rules", reminderRules);
-        executeFormPut(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("uuid", uuid);
+        urlParams.put("id", id);
+        executeFormPut(host, urlParams, treeMap, callback);
     }
 
     public void deleteSchedule(@NotNull String uuid, @NotNull String id, Callback callback) {
         String host = getUrl(Constant.API.ScheduleWithId);
         host = host.replace("[UUID]", uuid);
         host = host.replace("[ID]", id);
-        executeDelete(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("uuid", uuid);
+        urlParams.put("id", id);
+        executeDelete(host, urlParams, null, callback);
     }
 
     public void getWeatherInfo(@NotNull String tuid, @NotNull String city, Callback callback) {
@@ -100,13 +110,17 @@ public class NetPresenter {
         host = host.replace("[TUID]", tuid);
         TreeMap<String, Object> treeMap = getStrMap();
         treeMap.put("cityName", city);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getUserInfo(@NotNull String tuid, Callback callback) {
         String host = getUrl(Constant.API.UserInfo);
         host = host.replace("[TUID]", tuid);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        executeGet(host, urlParams, null, callback);
     }
 
     public void getRescue(@NotNull String tuid, Callback callback) {
@@ -124,7 +138,9 @@ public class NetPresenter {
         treeMap.put("lat", lat);
         treeMap.put("lon", lon);
         treeMap.put("radius", radius);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getDelicacy(String tuid, String uuid, @NotNull String lat, @NotNull String lon, @Nullable String city,
@@ -147,7 +163,10 @@ public class NetPresenter {
         if (notNullOrEmpty(keyword)) {
             treeMap.put("keyword", keyword);
         }
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getDelicacyDetail(@NotNull String tuid, @NotNull String uuid, @NotNull String openShopId, Callback callback) {
@@ -155,7 +174,11 @@ public class NetPresenter {
         host = host.replace("[TUID]", tuid);
         host = host.replace("[UUID]", uuid);
         host = host.replace("[OPENSHOPID]", openShopId);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        urlParams.put("openShopId", openShopId);
+        executeGet(host, urlParams, null, callback);
     }
 
     public void getDelicacySetting(@NotNull String tuid, @NotNull String uuid, @NotNull String classId, Callback callback) {
@@ -164,7 +187,10 @@ public class NetPresenter {
         host = host.replace("[UUID]", uuid);
         TreeMap<String, Object> treeMap = getStrMap();
         treeMap.put("classId", classId);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void setDelicacySetting(@NotNull String tuid, @NotNull String uuid, @NotNull String sortListJson, @NotNull String radiusListJson,
@@ -176,7 +202,10 @@ public class NetPresenter {
         treeMap.put("sort_list", sortListJson);
         treeMap.put("radius_list", radiusListJson);
         treeMap.put("setting_list", settingListJson);
-        executeFormPost(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getChargingStation(@NotNull String tuid, @NotNull String uuid, @NotNull String lat, @NotNull String lon,
@@ -193,7 +222,10 @@ public class NetPresenter {
         treeMap.put("PageSize", pageSize);
         treeMap.put("operator", operator);
         treeMap.put("mothod", mothod);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
     public void getChargingStationDetail(@NotNull String tuid, @NotNull String uuid, @NotNull String stationId,
                                    Callback callback) {
@@ -201,7 +233,11 @@ public class NetPresenter {
         host = host.replace("[TUID]", tuid);
         host = host.replace("[UUID]", uuid);
         host = host.replace("[STATIONID]", stationId);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        urlParams.put("stationId", stationId);
+        executeGet(host, urlParams, null, callback);
     }
     public void getChargingStationSetting(@NotNull String tuid, @NotNull String uuid, String classId, Callback callback) {
         String host = getUrl(Constant.API.ChargingStationSetting);
@@ -209,7 +245,10 @@ public class NetPresenter {
         host = host.replace("[UUID]", uuid);
         TreeMap<String, Object> treeMap = getStrMap();
         treeMap.put("classId", classId);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
     public void getScenicInfo(@NotNull String tuid, @NotNull String uuid, @NotNull String lat, @NotNull String lon, String cityName,
                               @NotNull String radius, String sort, String keyWord, Callback callback) {
@@ -229,7 +268,10 @@ public class NetPresenter {
         if (notNullOrEmpty(keyWord)) {
             treeMap.put("keyword", keyWord);
         }
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getScenicDetail(@NotNull String tuid, @NotNull String uuid, @NotNull String scenicId, Callback callback) {
@@ -237,7 +279,11 @@ public class NetPresenter {
         host = host.replace("[TUID]", tuid);
         host = host.replace("[UUID]", uuid);
         host = host.replace("[SCENICID]", scenicId);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        urlParams.put("scenicid", scenicId);
+        executeGet(host, urlParams, null, callback);
     }
 
     public void getScenicInCity(@NotNull String tuid, @NotNull String uuid, @NotNull String cityName, Callback callback) {
@@ -246,14 +292,20 @@ public class NetPresenter {
         host = host.replace("[UUID]", uuid);
         TreeMap<String, Object> treeMap = getStrMap();
         treeMap.put("cityName", cityName);
-        executeGet(host, treeMap, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, treeMap, callback);
     }
 
     public void getScenicSetting(@NotNull String tuid, @NotNull String uuid, Callback callback) {
         String host = getUrl(Constant.API.ScenicSetting);
         host = host.replace("[TUID]", tuid);
         host = host.replace("[UUID]", uuid);
-        executeGet(host, null, callback);
+        TreeMap<String, Object> urlParams = getStrMap();
+        urlParams.put("tuid", tuid);
+        urlParams.put("uuid", uuid);
+        executeGet(host, urlParams, null, callback);
     }
 
     /*****************************************************************************/
@@ -300,51 +352,52 @@ public class NetPresenter {
         return !(data == null || data.isEmpty());
     }
 
-    private void executeGet(String url, TreeMap<String, Object> params, Callback callback) {
-        HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
-        if (params == null) {
-            params = getStrMap();
-        }
+//    // 旧版本，CheckCode不对，使用带urlParams的接口
+//    private void executeGet(String url, TreeMap<String, Object> params, Callback callback) {
+//        HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
+//        if (params == null) {
+//            params = getStrMap();
+//        }
+//
+//        long time = System.currentTimeMillis();
+//        params.put("requestTime", String.valueOf(time));
+//
+//        String checkCode = getCheckCode(params, time);
+//        params.put("checkCode", checkCode);
+//
+//        try {
+//            for (Map.Entry<String, Object> entry : params.entrySet()) {
+//                String key, value;
+//                key = entry.getKey();
+//                value = String.valueOf(entry.getValue());
+//                LogUtil.i(TAG, "get param key: " + key + ", value: " + value);
+//                httpUrlBuilder.addQueryParameter(key, URLEncoder.encode(value, "UTF-8"));
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        LogUtil.i(TAG, "httpUrl: " + httpUrlBuilder.toString());
+//        Request request = new Request.Builder()
+//                .url(httpUrlBuilder.toString()).build();
+//        Call call = getOkHttpClient().newCall(request);
+//        call.enqueue(callback);
+//    }
 
-        long time = System.currentTimeMillis();
-        params.put("requestTime", String.valueOf(time));
-
-        String checkCode = getCheckCode(params, time);
+    private void addCheckCode(TreeMap<String, Object> urlParam, TreeMap<String, Object> params) {
+        long time = System.currentTimeMillis() / 1000;
+        urlParam.putAll(params);
+        String checkCode = getCheckCode(urlParam, time);
         params.put("checkCode", checkCode);
-
-        try {
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                String key, value;
-                key = entry.getKey();
-                value = String.valueOf(entry.getValue());
-                LogUtil.i(TAG, "get param key: " + key + ", value: " + value);
-                httpUrlBuilder.addQueryParameter(key, URLEncoder.encode(value, "UTF-8"));
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        LogUtil.i(TAG, "httpUrl: " + httpUrlBuilder.toString());
-        Request request = new Request.Builder()
-                .url(httpUrlBuilder.toString()).build();
-        Call call = getOkHttpClient().newCall(request);
-        call.enqueue(callback);
+        // 放在后面，不要把requestTime重复放到MD5计算里面
+        params.put("requestTime", String.valueOf(time));
     }
-
     private void executeGet(String url, TreeMap<String, Object> urlParam, TreeMap<String, Object> params, Callback callback) {
         HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
         if (params == null) {
             params = getStrMap();
         }
-
-        long time = System.currentTimeMillis() / 1000;
-
-        urlParam.putAll(params);
-
-        String checkCode = getCheckCode(urlParam, time);
-        params.put("checkCode", checkCode);
-        // 放在后面，不要把requestTime重复放到MD5计算里面
-        params.put("requestTime", String.valueOf(time));
+        addCheckCode(urlParam, params);
         try {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 String key, value;
@@ -364,17 +417,13 @@ public class NetPresenter {
         call.enqueue(callback);
     }
 
-    private void executeFormPost(String url, TreeMap<String, Object> params, Callback callback) {
+    private void executeFormPost(String url, TreeMap<String, Object> urlParams, TreeMap<String, Object> params, Callback callback) {
         HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
         FormBody.Builder builder = new FormBody.Builder();
         if (params == null) {
             params = getStrMap();
         }
-        long time = System.currentTimeMillis();
-        params.put("requestTime", String.valueOf(time));
-
-        String checkCode = getCheckCode(params, time);
-        params.put("checkCode", checkCode);
+        addCheckCode(urlParams, params);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             LogUtil.i(TAG, "get param key: " + entry.getKey() + ", value: " + entry.getValue());
@@ -389,18 +438,15 @@ public class NetPresenter {
         call.enqueue(callback);
     }
 
-    private void executeFormPut(String url, TreeMap<String, Object> params, Callback callback) {
+    private void executeFormPut(String url, TreeMap<String, Object> urlParams, TreeMap<String, Object> params, Callback callback) {
         HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
         FormBody.Builder builder = new FormBody.Builder();
 
         if (params == null) {
             params = getStrMap();
         }
-        long time = System.currentTimeMillis();
-        params.put("requestTime", String.valueOf(time));
 
-        String checkCode = getCheckCode(params, time);
-        params.put("checkCode", checkCode);
+        addCheckCode(urlParams, params);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             LogUtil.i(TAG, "get param key: " + entry.getKey() + ", value: " + entry.getValue());
@@ -415,19 +461,15 @@ public class NetPresenter {
         call.enqueue(callback);
     }
 
-    private void executeDelete(String url, TreeMap<String, Object> params, Callback callback) {
+    private void executeDelete(String url, TreeMap<String, Object> urlParams, TreeMap<String, Object> params, Callback callback) {
         HttpUrl.Builder httpUrlBuilder = HttpUrl.get(url).newBuilder();
         FormBody.Builder builder = new FormBody.Builder();
 
         if (params == null) {
             params = getStrMap();
         }
-        long time = System.currentTimeMillis();
-        params.put("requestTime", String.valueOf(time));
 
-        String checkCode = getCheckCode(params, time);
-        params.put("checkCode", checkCode);
-
+        addCheckCode(urlParams, params);
 
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             LogUtil.i(TAG, "get param key: " + entry.getKey() + ", value: " + entry.getValue());
